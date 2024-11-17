@@ -39,7 +39,7 @@ def predict_base_class(class_name, pass_courses, gender):
         return "MissCluster", "Unknow", translate(class_name)
 
 def extract_feature(courses, gender):
-    return np.zeros(courses.shape[1])
+    return np.random.rand(courses.shape[1]) * 10.0
 
 def outcome_mapping(index):
     mapping = ["Pass", "Border", "Fail"]

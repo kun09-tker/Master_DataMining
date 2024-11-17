@@ -1,5 +1,6 @@
 import os
 import uvicorn
+import requests
 from Core import *
 from typing import List
 from fastapi import FastAPI
@@ -70,7 +71,22 @@ class URL:
 
 # @app.post("/upload/")
 # async def upload(url: URL):
+#     output_file = "Data/Ksample.xlsx"
+#     try:
+#         # Send GET request
+#         response = requests.get(url.url, stream=True)
+#         response.raise_for_status()  # Raise an error for bad status codes
+        
+#         # Write the file to disk
+#         with open(output_file, "wb") as file:
+#             for chunk in response.iter_content(chunk_size=8192):
+#                 file.write(chunk)
+        
+#         return {
 
+#         }
+#     except requests.exceptions.RequestException as e:
+#         print(f"Failed to download the file: {e}")
     
 
 if __name__ == '__main__':
