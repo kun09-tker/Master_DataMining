@@ -1,8 +1,18 @@
 {
-    "MajorCourse":{
+    "MajorCourses":{
         "_Comment": "Học phần nhóm ngành và riêng cho ngành",
         "Index": 0,
         "CoursesName": [
+            "Lập trình Python",
+            "Lý luận và phương pháp dạy học Tin học 2",
+            "Lý luận và phương pháp dạy học Tin học 1",
+            "Tổ chức hoạt động giáo dục ở trường phổ thông",
+            "Dạy học định hướng Tin học ứng dụng trong trường phổ thông",
+            "Kiểm tra đánh giá kết quả học tập môn Tin học",
+            "Công nghệ dạy học",
+            "Hệ thống nhúng và ứng dụng",
+            "Trí tuệ nhân tạo và định hướng ứng dụng",
+            "Đào tạo điện tử (e-Learning) và ứng dụng",
             "Phát triển ứng dụng giao diện",
             "Phân tích và thiết kế hệ thống thông tin",
             "Nhập môn công nghệ phần mềm",
@@ -49,7 +59,7 @@
             "Lập trình trực quan"
         ]
     },
-    "FoundationCourse":{
+    "FoundationCourses":{
         "Index": 1,
         "_Comment": "Học phần chuyên môn chung lĩnh vực CNTT (ngoại trừ các học phần tốt nghiệp)",
         "CoursesName": [
@@ -88,7 +98,7 @@
             "Quản lý dự án Công nghệ Thông tin"
         ]
     },
-    "GraduationCourse":{
+    "GraduationCourses":{
         "Index": 2,
         "_Comment": "Học phần tốt nghiệp/thực tập",
         "CoursesName": [
@@ -98,10 +108,15 @@
             "Khóa luận tốt nghiệp"
         ]
     },
-    "GeneralCourse":{
+    "GeneralCourses":{
         "Index": 3,
         "_Comment": "Học phần chung/ ngoài nghành CNTT",
         "CoursesName": [
+            "Tâm lý học giáo dục",
+            "Nhập môn đánh giá tâm lý",
+            "Công nghệ trong Nông, Lâm nghiệp",
+            "Lý luận và phương pháp thể dục thể thao (học phần 1)",
+            "Quy hoạch du lịch",
             "Giáo dục Thể chất 2 - Bơi lội cơ bản",
             "Giáo dục Thể chất 3 - Bơi lội nâng cao",
             "Giáo dục Thể chất 2 - Cầu lông cơ bản",
@@ -149,8 +164,17 @@
             "Triết học Mác – Lênin",
             "Công tác quốc phòng và an ninh",
             "Quân sự chung, chiến thuật, kỹ thuật bắn súng ngắn và sử dụng lựu đạn",
-            "Giáo dục Thể chất 2 - Bơi lội cơ bản",
-            "Kinh tế chính trị học Mác - Lênin"
+            "Kinh tế chính trị học Mác - Lênin",
+            "Kỹ thuật làm hoa giấy nhún 1",
+            "Giáo dục học đại cương",
+            "Giao tiếp sư phạm",
+            "Tâm lý học căn bản",
+            "Bệnh trẻ em và sơ cấp cứu",
+            "Giáo dục Thể chất 3 -  Bóng rổ nâng cao",
+            "Văn hóa du lịch",
+            "Mỹ thuật cơ bản",
+            "Giáo dục Thể chất 3 - Aerobic nâng cao",
+            "Kinh tế du lịch"
         ]
     }
 }

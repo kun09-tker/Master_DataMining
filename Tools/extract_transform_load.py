@@ -1,14 +1,14 @@
 import json
 import numpy as np
 import pandas as pd
-from Connection.mongo_db import *
+from Connection.database import *
 
 class ExtractTransformLoad:
     def __init__(self) -> None:
         self.df = None
         self.feature = {}
         self.miss_course_name = []
-        self.database = MongoDB()
+        self.database = Database()
         with open('Lib/class_course.json', 'r', encoding='utf-8') as file:
             self.course_mapping = json.load(file) 
 
@@ -23,7 +23,7 @@ class ExtractTransformLoad:
             "Lớp",
             "Năm học",
             "Học kỳ",
-            "Điểm trung binh thang điểm 10",
+            "Điểm trung bình",
             "Tổng kết chữ",
             "Đạt"])
         df = df.rename(columns={
@@ -31,7 +31,7 @@ class ExtractTransformLoad:
             "Tên học phần": "CourseName",
             "Điểm giữa kỳ": "MidTermScore",
             "Điểm cuối kỳ": "FinalScore",
-            "Giới tính": "Gender",
+            "Giới tính": "Gender",
             "Số TC": "Credits"})
 
         self.df = df
@@ -43,15 +43,14 @@ class ExtractTransformLoad:
             False: 1
         })
         df["CourseClass"] = self.course_class()
-        
         df = df[df["CourseClass"] != "Unknows"]
         
         classes_name = df["CourseClass"].unique()
-        # print(classes_name)
         for cname in classes_name:
             df_cname = df[df["CourseClass"] == cname]
             df_cname = df_cname.drop(columns=["CourseClass"])
             df_cname["Rank"] = self.get_rank(df_cname)
+            self.save_ranking(cname, df_cname)
             df_cname = df_cname.drop(columns=["CourseName"])
 
             group_index = df_cname.groupby(["Index", "Gender"])
@@ -59,22 +58,25 @@ class ExtractTransformLoad:
             number_of_credits = group_index["Credits"].sum().values
             overcome = group_index["Rank"].mean().values
             total_GPA = group_index["GPA"].sum().values
-            seriousness = group_index["RadioFinalAndMid"].mean().values
+            improvement = group_index["RadioFinalAndMid"].mean().fillna(0).values
 
             self.feature[cname] = pd.DataFrame({
                 "Index": index,
-                "Gender" : gender,
                 "Overcome": overcome,
-                "Accumulation": total_GPA / number_of_credits,
-                "Seriousness": seriousness
-            })
+                "Accumulation": total_GPA / number_of_credits            })
     
     def load_data(self):
         self.miss_course_name = list(set(self.miss_course_name))
+        df_info = pd.DataFrame({
+            "MissCourse":  [self.miss_course_name],
+            "TotalOfStudent": len(self.df["Index"].unique()),
+            "TotalOfCourses": len(self.df["CourseName"].unique())
+        })
+        df_info.to_json(f"Data/Info.json", orient="records", force_ascii=False, indent=4)
         for cname in self.feature.keys():
             self.database.update_or_insert(self.feature[cname], cname)
 
-    def etl_pipeline(self, file_name):
+    def __call__(self, file_name):
         self.extract_data(file_name)
         self.transform_data()
         self.load_data()
@@ -97,7 +99,7 @@ class ExtractTransformLoad:
 
     def get_rank(self, df):
         total_courses = df['CourseName'].unique()
-        df_fail = df[df['GPA'] < 5.0][['CourseName', 'GPA']]
+        df_fail = df[df['GPA'] < 4.0][['CourseName', 'GPA']]
         course_counts = df_fail['CourseName'].value_counts()
         course_order = course_counts.index.to_numpy()
         max_rank = len(course_order) + 1
@@ -106,4 +108,11 @@ class ExtractTransformLoad:
             if course not in rank_mapping.keys():
                 rank_mapping[course] = max_rank
         return df['CourseName'].map(rank_mapping).values
+
+    def save_ranking(self, class_name, df):
+        df = df[["CourseName", "Rank"]].drop_duplicates()
+        result = dict(zip(df["CourseName"], df["Rank"]))
+        with open(f'Lib/Ranking/{class_name}_ranking.json', 'w', encoding='utf-8') as rank:
+            json.dump(result, rank, ensure_ascii=False, indent=4)
+
 
