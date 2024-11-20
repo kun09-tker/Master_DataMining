@@ -1,0 +1,23 @@
+{
+    "FoundationCourses": [
+        "Fail",
+        "Fail",
+        "Pass",
+        "Fail",
+        "Fail"
+    ],
+    "GeneralCourses": [
+        "Pass",
+        "Fail",
+        "Fail",
+        "Fail",
+        "Fail"
+    ],
+    "MajorCourses": [
+        "Fail",
+        "Fail",
+        "Pass",
+        "Fail",
+        "Fail"
+    ]
+}

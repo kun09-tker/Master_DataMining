@@ -1,8 +1,5 @@
 from .extract_transform_load import ExtractTransformLoad
-from .utils import euclidean_distance, distance_matrix, load_file_json
-from .evaluate import silhouette_score, davies_bouldin_index
+from .utils import euclidean_distance, load_file_json, labels_and_get_centroids
 
 __all__ = ["ExtractTransformLoad",
-           "euclidean_distance", "distance_matrix",
-           "load_file_json",
-           "silhouette_score", "davies_bouldin_index"]
+           "euclidean_distance", "load_file_json", "labels_and_get_centroids"]

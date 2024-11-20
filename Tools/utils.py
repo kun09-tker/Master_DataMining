@@ -4,19 +4,23 @@ import pandas as pd
 def euclidean_distance(a, b, axis=1):
     return np.sqrt(np.sum((a - b) ** 2, axis=axis))
 
-def distance_matrix(matrix):
-    n = len(matrix)
-    distance_matrix = np.zeros((n, n))
-    for i in range(n):
-        for j in range(i+1, n):
-            distance = euclidean_distance(matrix[i], matrix[j])
-            distance_matrix[i, j] = distance
-            distance_matrix[j, i] = distance
-    return distance_matrix
-
 def load_file_json(path_database):
     df = pd.read_json(path_database)
     df = df.drop(columns=["Index"])
 
     array = df.to_numpy()
     return array, array.shape, list(df.columns)
+
+
+def compute_centroid(cluster, data):
+    cluster_points = data[cluster]
+    centroid = np.mean(cluster_points, axis=0)
+    return centroid
+
+def labels_and_get_centroids(data, labels, n_clusters):
+    centroids = []
+    for cluster_idx in range(n_clusters):
+        cluster = np.where(labels == cluster_idx)[0]
+        centroid = compute_centroid(cluster, data)
+        centroids.append(centroid)
+    return np.array(centroids), labels

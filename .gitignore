@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+Frontend/
 build/
 Data/K*.xlsx
 Data/*.json
