@@ -16,6 +16,10 @@ def predict_outcome(predict_course_name, pass_courses):
     if len(pass_courses) < 3:
         return "NotEnough", "Unknown", translate(class_of_predict_course)
     
+    for course in pass_courses:
+        if class_of_course(classes, course.name) == None:
+            return "Miss", "Unknown", translate(class_of_predict_course)
+
     pass_courses_using_predict = [course for course in pass_courses
                                   if class_of_course(classes, course.name) == class_of_predict_course and class_of_predict_course != None]
     checker = check_studied(predict_course_name, pass_courses_using_predict)
@@ -67,10 +71,15 @@ def extract_feature(pass_courses_using_predict, predict_course_name, rank):
     overcome = np.array(
         [rank[c.name] for c in pass_courses_using_predict] + [rank[predict_course_name]],
     dtype=np.float64).mean()
-
+    
     midterm_scores = np.array([c.midtermScore for c in pass_courses_using_predict], dtype=np.float64)
+    predict_mid = midterm_scores.mean()
+    midterm_scores = np.append(midterm_scores, predict_mid)
     midterm_scores[midterm_scores == 0] = 1
+
     final_scores = np.array([c.finalScore for c in pass_courses_using_predict], dtype=np.float64)
+    predict_final = final_scores.mean()
+    final_scores = np.append(final_scores, predict_final)
     final_scores[final_scores == 0] = 1
 
     return [overcome, gmean(midterm_scores), gmean(final_scores)]
