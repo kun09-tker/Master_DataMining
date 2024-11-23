@@ -52,7 +52,9 @@ async def predict(data: Data):
     message = None
     event, result, class_course = predict_outcome(predict_course, pass_courses)
 
-    if event == "Miss":
+    if event == "NoInfo":
+        message = f"""Lưu ý, {predict_course} thuộc loại môn học {class_course}. Thông tin bạn cung cấp không có môn nào thuộc {class_course}. Kết quả dự đoán này chỉ dựa trên tình hình chung."""
+    elif event == "Miss":
         message = f"""Lưu ý, vui lòng kiểm tra thông tin đầu vào hoặc hệ thống chưa có thông tin để dựa đoán mô học này."""
     elif event == "Studied":
         message = f"""Xin lỗi, bạn không cần dự đoán học phần này vì bạn đã học học phần này rồi. Kết quả là {result}"""

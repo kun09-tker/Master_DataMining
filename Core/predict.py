@@ -28,12 +28,13 @@ def predict_outcome(predict_course_name, pass_courses):
     
     print(len(pass_courses_using_predict))
 
-    if len(pass_courses_using_predict) < 3:
+    if len(pass_courses_using_predict) < 1:
         r = rank[predict_course_name]
+        max_r = np.max(np.array(list(rank.values())))
         grade = "Fail"
-        if r == rank[max(rank, key=rank.get)]:
+        if r / max_r > 0.5:
             grade = "Pass"
-        return "NoEvent", grade, translate(class_of_predict_course)
+        return "NoInfo", grade, translate(class_of_predict_course)
     result = predict_base_class(class_of_predict_course, pass_courses_using_predict,
                                 predict_course_name, rank)
     return result
